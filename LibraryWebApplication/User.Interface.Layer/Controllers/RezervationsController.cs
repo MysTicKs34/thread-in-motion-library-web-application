@@ -22,6 +22,7 @@ namespace User.Interface.Layer.Controllers
         public ActionResult Index()
         {
             IEnumerable<BookTransactions> bookTransactions = _uOw.BookTransactionRepository.GetAllWithBooksAndMembersAsync().GetAwaiter().GetResult();
+            _uOw.Dispose();
             return View(bookTransactions);
         }
 
@@ -29,14 +30,16 @@ namespace User.Interface.Layer.Controllers
         public ActionResult Details(int id)
         {
             BookTransactions bookTransaction = _uOw.BookTransactionRepository.GetAllWithBooksAndMembersByIdAsync(id).GetAwaiter().GetResult();
+            _uOw.Dispose();
             return View(bookTransaction);
         }
 
         // GET: RezervationController/Create
         public ActionResult Create()
         {
-            ViewBag.Books = _uOw.BookRepository.GetAllAsync().GetAwaiter().GetResult();
+            ViewBag.Books = _uOw.BookRepository.Find(x => x.StockQuantity > 0).GetAwaiter().GetResult();
             ViewBag.Members = _uOw.MemberRepository.GetAllAsync().GetAwaiter().GetResult();
+            _uOw.Dispose();
             return View();
         }
 
@@ -54,6 +57,7 @@ namespace User.Interface.Layer.Controllers
                     bookTransaction.Book.StockQuantity--;
                     _uOw.BookRepository.UpdateAsync(bookTransaction.Book).GetAwaiter().GetResult();
                     _uOw.CommitAsync().GetAwaiter().GetResult();
+                    _uOw.Dispose();
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -70,10 +74,11 @@ namespace User.Interface.Layer.Controllers
         // GET: RezervationController/Edit/5
         public ActionResult Edit(int id)
         {
-            ViewBag.Books = _uOw.BookRepository.GetAllAsync().GetAwaiter().GetResult();
+            ViewBag.Books = _uOw.BookRepository.Find(x => x.StockQuantity > 0).GetAwaiter().GetResult();
             ViewBag.Members = _uOw.MemberRepository.GetAllAsync().GetAwaiter().GetResult();
             BookTransactions bookTransaction = _uOw.BookTransactionRepository.GetByIdAsync(id).GetAwaiter().GetResult();
             updatedBookId = bookTransaction.BookID;
+            _uOw.Dispose();
             return View(bookTransaction);
         }
 
@@ -97,6 +102,7 @@ namespace User.Interface.Layer.Controllers
                         _uOw.BookRepository.UpdateAsync(updatedBook);
                     }
                     _uOw.CommitAsync().GetAwaiter().GetResult();
+                    _uOw.Dispose();
                     return RedirectToAction(nameof(Index));
                 }
                 else

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.Layer.Abstraction;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace User.Interface.Layer.Controllers
 {
@@ -19,7 +21,8 @@ namespace User.Interface.Layer.Controllers
         // GET: ReportController
         public ActionResult Index()
         {
-            IEnumerable<BookTransactions> bookTransactions = _uOw.BookTransactionRepository.GetAllWithBooksAndMembersAsync().GetAwaiter().GetResult();
+            IEnumerable<BookTransactions> bookTransactions = _uOw.BookTransactionRepository.GetAllWithBooksAndMembersForPredicateAsync().GetAwaiter().GetResult().Where(x => x.ReturnDate.Subtract(DateTime.Today).Days <= 2 || DateTime.Today.Subtract(x.ReturnDate).Days < 0).ToList();
+            _uOw.Dispose();
             return View(bookTransactions);
         }
     }

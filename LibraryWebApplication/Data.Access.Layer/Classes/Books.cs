@@ -9,9 +9,13 @@ namespace Data.Access.Layer.Classes
     {
         public int ID { get; set; }
         [Required]
+        public int ISBN { get; set; }
+        [Required]
         [Column(TypeName = "varchar(20)")]
         public string Name { get; set; }
         public DateTime LoanDate { get; set; }
         public int StockQuantity { get; set; }
+        public int AuthorID { get; set; }
+        public virtual Authors Author { get; set; }
     }
 }

@@ -1,51 +1,55 @@
 ﻿using Data.Access.Layer.Classes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.Layer.Abstraction;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace User.Interface.Layer.Controllers
 {
-    public class MembersController : Controller
+    public class AuthorsController : Controller
     {
-        private readonly ILogger<MembersController> _logger;
+        private readonly ILogger<AuthorsController> _logger;
         private IUnitOfWork _uOw;
 
-        public MembersController(ILogger<MembersController> logger, IUnitOfWork uOw)
+        public AuthorsController(ILogger<AuthorsController> logger, IUnitOfWork uOw)
         {
             _logger = logger;
             _uOw = uOw;
         }
-        // GET: MembersController
+        // GET: AuthorsController
         public ActionResult Index()
         {
-            IEnumerable<Members> members = _uOw.MemberRepository.GetAllAsync().GetAwaiter().GetResult();
+            IEnumerable<Authors> authors = _uOw.AuthorRepository.GetAllAsync().GetAwaiter().GetResult();
             _uOw.Dispose();
-            return View(members);
+            return View(authors);
         }
 
-        // GET: MembersController/Details/5
+        // GET: AuthorsController/Details/5
         public ActionResult Details(int id)
         {
-            Members member = _uOw.MemberRepository.GetByIdAsync(id).GetAwaiter().GetResult();
+            Authors author = _uOw.AuthorRepository.GetByIdAsync(id).GetAwaiter().GetResult();
             _uOw.Dispose();
-            return View(member);
+            return View(author);
         }
 
-        // GET: MembersController/Create
+        // GET: AuthorsController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: MembersController/Create
+        // POST: AuthorsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Members member)
+        public ActionResult Create(Authors author)
         {
             try
             {
-                _uOw.MemberRepository.AddAsync(member).GetAwaiter().GetResult();
+                _uOw.AuthorRepository.AddAsync(author).GetAwaiter().GetResult();
                 _uOw.CommitAsync().GetAwaiter().GetResult();
                 _uOw.Dispose();
                 return RedirectToAction(nameof(Index));
@@ -56,22 +60,22 @@ namespace User.Interface.Layer.Controllers
             }
         }
 
-        // GET: MembersController/Edit/5
+        // GET: AuthorsController/Edit/5
         public ActionResult Edit(int id)
         {
-            Members member = _uOw.MemberRepository.GetByIdAsync(id).GetAwaiter().GetResult();
+            Authors author = _uOw.AuthorRepository.GetByIdAsync(id).GetAwaiter().GetResult();
             _uOw.Dispose();
-            return View(member);
+            return View(author);
         }
 
-        // POST: MembersController/Edit/5
+        // POST: AuthorsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Members member)
+        public ActionResult Edit(int id, Authors author)
         {
             try
             {
-                _uOw.MemberRepository.UpdateAsync(member).GetAwaiter().GetResult();
+                _uOw.AuthorRepository.UpdateAsync(author).GetAwaiter().GetResult();
                 _uOw.CommitAsync().GetAwaiter().GetResult();
                 _uOw.Dispose();
                 return RedirectToAction(nameof(Index));

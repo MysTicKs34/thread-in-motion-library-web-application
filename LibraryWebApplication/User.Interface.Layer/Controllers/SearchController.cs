@@ -24,7 +24,9 @@ namespace User.Interface.Layer.Controllers
         // GET: SearchController
         public ActionResult Index()
         {
-            return View(new SearchViewModel());
+            SearchViewModel searchViewModel = new();
+            searchViewModel.Authors = _uOw.AuthorRepository.GetAllAsync().GetAwaiter().GetResult();
+            return View(searchViewModel);
         }
         // POST: SearchController/Search
         [HttpPost]
@@ -32,7 +34,8 @@ namespace User.Interface.Layer.Controllers
         public ActionResult Search(SearchViewModel searchViewModel)
         {
             IEnumerable<Books> books = _uOw.BookRepository.GetAllAsync().GetAwaiter().GetResult();
-            books = books.Where(x => x.Name.Contains(searchViewModel.Name) || x.LoanDate.Year == searchViewModel.LoanDate.Year).ToList();
+            books = books.Where(x => x.Name.Contains(searchViewModel.Name ?? "***") || x.LoanDate.Year == searchViewModel.LoanDate.Year || x.AuthorID == searchViewModel.AuthorId || x.ISBN == searchViewModel.ISBN).ToList();
+            _uOw.Dispose();
             return View(books);
         }
     }

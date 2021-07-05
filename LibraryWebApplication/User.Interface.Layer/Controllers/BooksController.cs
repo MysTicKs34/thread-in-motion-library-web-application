@@ -19,20 +19,23 @@ namespace User.Interface.Layer.Controllers
         // GET: BooksController
         public ActionResult Index()
         {
-            IEnumerable<Books> books = _uOw.BookRepository.GetAllAsync().GetAwaiter().GetResult();
+            IEnumerable<Books> books = _uOw.BookRepository.GetAllWithAuthorAsync().GetAwaiter().GetResult();
+            _uOw.Dispose();
             return View(books);
         }
 
         // GET: BooksController/Details/5
         public ActionResult Details(int id)
         {
-            Books book = _uOw.BookRepository.GetByIdAsync(id).GetAwaiter().GetResult();
+            Books book = _uOw.BookRepository.GetByIdWithAuthorAsync(id).GetAwaiter().GetResult();
+            _uOw.Dispose();
             return View(book);
         }
 
         // GET: BooksController/Create
         public ActionResult Create()
         {
+            ViewBag.Authors = _uOw.AuthorRepository.GetAllAsync().GetAwaiter().GetResult();
             return View();
         }
 
@@ -45,6 +48,7 @@ namespace User.Interface.Layer.Controllers
             {
                 _uOw.BookRepository.AddAsync(book).GetAwaiter().GetResult();
                 _uOw.CommitAsync().GetAwaiter().GetResult();
+                _uOw.Dispose();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -56,7 +60,9 @@ namespace User.Interface.Layer.Controllers
         // GET: BooksController/Edit/5
         public ActionResult Edit(int id)
         {
+            ViewBag.Authors = _uOw.AuthorRepository.GetAllAsync().GetAwaiter().GetResult();
             Books book = _uOw.BookRepository.GetByIdAsync(id).GetAwaiter().GetResult();
+            _uOw.Dispose();
             return View(book);
         }
 
@@ -69,6 +75,7 @@ namespace User.Interface.Layer.Controllers
             {
                 _uOw.BookRepository.UpdateAsync(book).GetAwaiter().GetResult();
                 _uOw.CommitAsync().GetAwaiter().GetResult();
+                _uOw.Dispose();
                 return RedirectToAction(nameof(Index));
             }
             catch

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Access.Layer.Migrations
 {
     [DbContext(typeof(LibraryWebApplicationContext))]
-    [Migration("20210705093403_LibraryWebApplicationMigrations_3")]
-    partial class LibraryWebApplicationMigrations_3
+    [Migration("20210705205354_LibraryWebApplicationMigrations_2")]
+    partial class LibraryWebApplicationMigrations_2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,13 +28,15 @@ namespace Data.Access.Layer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Birthdate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.HasKey("ID");
@@ -54,6 +56,9 @@ namespace Data.Access.Layer.Migrations
 
                     b.Property<DateTime>("BorrowingDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MemberID")
                         .HasColumnType("int");
@@ -80,10 +85,14 @@ namespace Data.Access.Layer.Migrations
                     b.Property<int>("AuthorID")
                         .HasColumnType("int");
 
+                    b.Property<int>("ISBN")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("LoanDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.Property<int>("StockQuantity")
@@ -107,9 +116,11 @@ namespace Data.Access.Layer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.HasKey("ID");

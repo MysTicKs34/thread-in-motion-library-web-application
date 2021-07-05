@@ -8,6 +8,7 @@ namespace Services.Layer.Abstraction
         IBookRepository BookRepository { get; }
         IMemberRepository MemberRepository { get; }
         IBookTransactionRepository BookTransactionRepository { get; }
+        IAuthorRepository AuthorRepository { get; }
         Task<int> CommitAsync();
     }
 }

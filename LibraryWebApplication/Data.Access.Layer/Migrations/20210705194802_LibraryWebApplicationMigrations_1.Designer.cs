@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Access.Layer.Migrations
 {
     [DbContext(typeof(LibraryWebApplicationContext))]
-    [Migration("20210705013452_LibraryWebApplicationMigrations_2")]
-    partial class LibraryWebApplicationMigrations_2
+    [Migration("20210705194802_LibraryWebApplicationMigrations_1")]
+    partial class LibraryWebApplicationMigrations_1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,13 +28,15 @@ namespace Data.Access.Layer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Birthdate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.HasKey("ID");
@@ -49,11 +51,14 @@ namespace Data.Access.Layer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BookID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("BorrowingDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("ISBN")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MemberID")
                         .HasColumnType("int");
@@ -63,33 +68,11 @@ namespace Data.Access.Layer.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("BookID");
+                    b.HasIndex("ISBN");
 
                     b.HasIndex("MemberID");
 
                     b.ToTable("BookTransactions");
-                });
-
-            modelBuilder.Entity("Data.Access.Layer.Classes.BookTypes", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BookID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TypeID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("BookID");
-
-                    b.HasIndex("TypeID");
-
-                    b.ToTable("BookTypes");
                 });
 
             modelBuilder.Entity("Data.Access.Layer.Classes.Books", b =>
@@ -102,10 +85,14 @@ namespace Data.Access.Layer.Migrations
                     b.Property<int>("AuthorID")
                         .HasColumnType("int");
 
+                    b.Property<int>("ISBN")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("LoanDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.Property<int>("StockQuantity")
@@ -129,9 +116,11 @@ namespace Data.Access.Layer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.HasKey("ID");
@@ -139,26 +128,11 @@ namespace Data.Access.Layer.Migrations
                     b.ToTable("Members");
                 });
 
-            modelBuilder.Entity("Data.Access.Layer.Classes.Types", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Type")
-                        .HasColumnType("varchar(20)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Types");
-                });
-
             modelBuilder.Entity("Data.Access.Layer.Classes.BookTransactions", b =>
                 {
                     b.HasOne("Data.Access.Layer.Classes.Books", "Book")
                         .WithMany()
-                        .HasForeignKey("BookID")
+                        .HasForeignKey("ISBN")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -171,25 +145,6 @@ namespace Data.Access.Layer.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Member");
-                });
-
-            modelBuilder.Entity("Data.Access.Layer.Classes.BookTypes", b =>
-                {
-                    b.HasOne("Data.Access.Layer.Classes.Books", "Book")
-                        .WithMany("BookTypes")
-                        .HasForeignKey("BookID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.Access.Layer.Classes.Types", "Type")
-                        .WithMany("BookTypes")
-                        .HasForeignKey("TypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Data.Access.Layer.Classes.Books", b =>
@@ -206,16 +161,6 @@ namespace Data.Access.Layer.Migrations
             modelBuilder.Entity("Data.Access.Layer.Classes.Authors", b =>
                 {
                     b.Navigation("Books");
-                });
-
-            modelBuilder.Entity("Data.Access.Layer.Classes.Books", b =>
-                {
-                    b.Navigation("BookTypes");
-                });
-
-            modelBuilder.Entity("Data.Access.Layer.Classes.Types", b =>
-                {
-                    b.Navigation("BookTypes");
                 });
 #pragma warning restore 612, 618
         }

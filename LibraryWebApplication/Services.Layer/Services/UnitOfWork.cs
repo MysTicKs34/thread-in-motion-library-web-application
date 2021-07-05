@@ -10,16 +10,16 @@ namespace Services.Layer.Services
         private BookRepository _bookRepository;
         private MemberRepository _memberRepository;
         private BookTransactionRepository _bookTransactionRepository;
+        private AuthorRepository _authorRepository;
 
         public UnitOfWork(LibraryWebApplicationContext context)
         {
-            this._context = context;
+            _context = context;
         }
         public IBookRepository BookRepository => _bookRepository = _bookRepository ?? new BookRepository(_context);
-
         public IMemberRepository MemberRepository => _memberRepository = _memberRepository ?? new MemberRepository(_context);
-
         public IBookTransactionRepository BookTransactionRepository => _bookTransactionRepository = _bookTransactionRepository ?? new BookTransactionRepository(_context);
+        public IAuthorRepository AuthorRepository => _authorRepository = _authorRepository ?? new AuthorRepository(_context);
 
         public async Task<int> CommitAsync()
         {
