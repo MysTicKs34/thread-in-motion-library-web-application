@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Services.Layer.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,14 +13,17 @@ namespace User.Interface.Layer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private IUnitOfWork _uOw;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork uOw)
         {
             _logger = logger;
+            _uOw = uOw;
         }
 
         public IActionResult Index()
         {
+            _uOw.AuthorRepository.GetAllAsync();
             return View();
         }
 
