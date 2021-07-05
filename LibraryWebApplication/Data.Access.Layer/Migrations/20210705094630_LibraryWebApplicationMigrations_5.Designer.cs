@@ -4,14 +4,16 @@ using Data.Access.Layer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Access.Layer.Migrations
 {
     [DbContext(typeof(LibraryWebApplicationContext))]
-    partial class LibraryWebApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210705094630_LibraryWebApplicationMigrations_5")]
+    partial class LibraryWebApplicationMigrations_5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +33,6 @@ namespace Data.Access.Layer.Migrations
 
                     b.Property<DateTime>("BorrowingDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<int>("MemberID")
                         .HasColumnType("int");
@@ -61,7 +60,6 @@ namespace Data.Access.Layer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.Property<int>("StockQuantity")
@@ -83,11 +81,9 @@ namespace Data.Access.Layer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.HasKey("ID");

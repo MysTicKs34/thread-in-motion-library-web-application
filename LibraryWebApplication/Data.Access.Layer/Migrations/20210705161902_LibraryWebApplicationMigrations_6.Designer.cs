@@ -4,14 +4,16 @@ using Data.Access.Layer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Access.Layer.Migrations
 {
     [DbContext(typeof(LibraryWebApplicationContext))]
-    partial class LibraryWebApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210705161902_LibraryWebApplicationMigrations_6")]
+    partial class LibraryWebApplicationMigrations_6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

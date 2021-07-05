@@ -1,0 +1,32 @@
+﻿@model List<Data.Access.Layer.Classes.BookTransactions>;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        <a class="nav-link text-light btn btn-primary" asp-area="" asp-controller="Rezervations" asp-action="Create">Add New Rezervation</a>
+    </li>
+</ul>
+
+@{
+    for (int i = 0; i < Model.Count(); i++)
+    {
+        <div class="card">
+            <div class="card-body">
+                <ul class="navbar-nav flex-grow-1 text-right">
+                    <li class="nav-item">
+                        <a class="nav-link text-primary" asp-area="" asp-controller="Rezervations" asp-action="Edit" asp-route-id="@Model[i].ID">Edit Rezervation</a>
+                    </li>
+                </ul>
+                <h4 class="card-title">@Model[i].Book.Name</h4>
+                <p class="card-text">@Model[i].Member.Name @Model[i].Member.Surname</p>
+                <p class="card-text">@Model[i].BorrowingDate.ToShortDateString() - @Model[i].ReturnDate.ToShortDateString()</p>
+                <a class="btn btn-primary" asp-area="" asp-controller="Rezervations" asp-action="Details" asp-route-id="@Model[i].ID">See Details</a>
+            </div>
+        </div>
+    }
+}
+

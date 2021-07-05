@@ -19,7 +19,7 @@ namespace Services.Layer.Abstraction
         #region Queries
         public Task<IEnumerable<T>> GetAllAsync();
         public ValueTask<T> GetByIdAsync(int id);
-        IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
         Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate);
         #endregion
     }
