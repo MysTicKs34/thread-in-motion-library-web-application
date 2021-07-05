@@ -12,7 +12,7 @@ namespace Data.Access.Layer.Classes
             BookTypes = new List<BookTypes>();
         }
         public int ID { get; set; }
-        [Column(TypeName = "varchar")]
+        [Column(TypeName = "varchar(20)")]
         public string Name { get; set; }
         public DateTime LoanDate { get; set; }
         public int StockQuantity { get; set; }

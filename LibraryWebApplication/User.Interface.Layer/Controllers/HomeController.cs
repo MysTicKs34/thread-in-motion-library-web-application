@@ -13,17 +13,14 @@ namespace User.Interface.Layer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private IUnitOfWork _uOw;
 
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork uOw)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _uOw = uOw;
         }
 
         public IActionResult Index()
         {
-            _uOw.AuthorRepository.GetAllAsync();
             return View();
         }
 

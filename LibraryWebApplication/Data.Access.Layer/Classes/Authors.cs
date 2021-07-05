@@ -12,9 +12,9 @@ namespace Data.Access.Layer.Classes
             Books = new List<Books>();
         }
         public int ID { get; set; }
-        [Column(TypeName = "varchar")]
+        [Column(TypeName = "varchar(20)")]
         public string Name { get; set; }
-        [Column(TypeName = "varchar")]
+        [Column(TypeName = "varchar(20)")]
         public string Surname { get; set; }
         public DateTime Birthdate { get; set; }
         public virtual ICollection<Books> Books { get; set; }

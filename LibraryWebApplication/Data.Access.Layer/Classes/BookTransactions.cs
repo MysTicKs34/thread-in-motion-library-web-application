@@ -1,5 +1,6 @@
 ﻿using Data.Access.Layer.Interfaces;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Access.Layer.Classes
 {
